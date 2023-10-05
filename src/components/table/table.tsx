@@ -20,13 +20,17 @@ export const TableComponent = ({ HeadColumns, BodyRow }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {BodyRow.map((information, index) => (
-            <tr key={`${index}-tr`}>
-              {Object.values(information).map((cell, index) => (
-                <td key={`${index}-td`}>{cell}</td>
-              ))}
-            </tr>
-          ))}
+          {BodyRow.map((information, index) => {
+            console.log('INFORMATION_TEST: ', information)
+            return <>
+              <tr key={`${index}-tr`}>
+                {Object.values(information).map((cell, index) => {
+                  console.log('TESTE_CELL: ', cell, Array.isArray(cell))
+                  return Array.isArray(cell) ? <><p></p></> : <><td key={`${index}-td`}>{cell}</td></>
+                })}
+              </tr>
+            </>
+          })}
         </tbody>
       </Table>
     </>

@@ -13,6 +13,7 @@ export const TableDashboard = () => {
   const HeadColumns = ['Usuário', 'E-mail', 'WhatsApp', 'Tipo de usuário']
 
   const [userData, setUserData] = useState([])
+  const [userDataProcessed, setUserDataProcessed] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +21,19 @@ export const TableDashboard = () => {
         const userData = await GetLastUsers()
         if (userData) {
           setUserData(userData.content)
+          let dataTemp:any = []
+          userData.content.forEach((item: any) => {
+            dataTemp.push( {
+              user: item.name,
+              email: item.email,
+              whatsapp: item.phone,
+             // specialty: item.specialties.lenght > 0 ? item.specialties[0].name : '',
+             // city: item?.address?.city,
+              //uf:  item?.address?.uf,
+              userType: item.profiles.length > 0 ? item.profiles[0].name : '',
+            })
+          })
+          setUserDataProcessed(dataTemp);
           console.log(userData.content)
         }
       } catch (error) {
@@ -41,11 +55,12 @@ export const TableDashboard = () => {
         </DivForTitleOnTable>
         <TableComponent
           HeadColumns={HeadColumns}
-          BodyRow={userData.map(user => ({
-            firstname: `${user.firstName} ${user.lastName}`,
-            email: `${user.email}`,
-            phone: `${user.phone}`
-          }))}
+          BodyRow={userDataProcessed}
+          // BodyRow={userData.map(user => ({
+          //   firstname: `${user.firstName} ${user.lastName}`,
+          //   email: `${user.email}`,
+          //   phone: `${user.phone}`
+          // }))}
         />
       </DivForTable>
     </>
